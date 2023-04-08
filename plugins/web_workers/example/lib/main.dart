@@ -24,6 +24,19 @@ class _MyAppState extends State<MyApp> {
 
   CustomWorker? _worker;
 
+  final TextEditingController _textController = TextEditingController();
+
+  void _onMessageSent(String text) async {
+    try {
+      await _webWorkersPlugin.postMessage(
+        _worker!.id,
+        text,
+      );
+    } catch (e) {
+      print('DEBUG error: $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +83,10 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   try {
                     final workerId = await _webWorkersPlugin.create(workerName);
-                    _worker = CustomWorker(workerId);
+
+                    setState(() {
+                      _worker = CustomWorker(workerId);
+                    });
                   } catch (e) {
                     print('DEBUG error: $e');
                   }
@@ -79,24 +95,35 @@ class _MyAppState extends State<MyApp> {
 
               const SizedBox(height: 20),
 
-              // Post message to the last worker created
-              ElevatedButton(
-                child: const Text('Post message'),
-                onPressed: () async {
-                  if (_worker == null) {
-                    throw Exception('No worker created. Create one first.');
-                  }
+              // A text field where the user can enter text to send to the worker.
+              //
+              // The text field is disabled if there is no worker.
+              //
+              // The worker will echo the text back to the main app.
+              if (_worker != null)
+                SizedBox(
+                  width: 300,
+                  child: TextFormField(
+                    controller: _textController,
+                    enabled: _worker != null,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Enter text to send to worker',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.send),
+                        onPressed: () => _onMessageSent(_textController.text),
+                      ),
+                    ),
+                    maxLength: 100,
+                    textInputAction: TextInputAction.done,
+                    textCapitalization: TextCapitalization.sentences,
 
-                  try {
-                    await _webWorkersPlugin.postMessage(
-                      _worker!.id,
-                      'Hello from Flutter',
-                    );
-                  } catch (e) {
-                    print('DEBUG error: $e');
-                  }
-                },
-              ),
+                    // When the user presses the "done" button on the keyboard,
+                    // send the text to the worker.
+                    onFieldSubmitted: _onMessageSent,
+                  ),
+                ),
 
               const SizedBox(height: 20),
 
@@ -106,7 +133,10 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   try {
                     await _webWorkersPlugin.terminate(_worker!.id);
-                    _worker = null;
+
+                    setState(() {
+                      _worker = null;
+                    });
                   } catch (e) {
                     print('DEBUG error: $e');
                   }
@@ -114,6 +144,18 @@ class _MyAppState extends State<MyApp> {
               ),
 
               const SizedBox(height: 20),
+
+              if (_worker != null)
+                StreamBuilder<String>(
+                  stream: _webWorkersPlugin.onMessage(_worker!.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text('Message from worker: ${snapshot.data}');
+                    } else {
+                      return const Text('No message from worker');
+                    }
+                  },
+                ),
             ],
           ),
         ),
