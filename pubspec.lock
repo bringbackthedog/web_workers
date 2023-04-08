@@ -189,10 +189,10 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  web_worker:
+  web_workers:
     dependency: "direct main"
     description:
-      path: "plugins/web_worker"
+      path: "plugins/web_workers"
       relative: true
     source: path
     version: "0.0.1"

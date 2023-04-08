@@ -1,12 +1,12 @@
-name: web_worker
+name: web_workers
 version: 0.0.1
 
 flutter:
   plugin:
     platforms:
       web:
-        pluginClass: WebWorkerPlugin
-        fileName: web_worker.dart
+        pluginClass: WebWorkersPlugin
+        fileName: web_workers.dart
 
 dependencies:
   flutter:

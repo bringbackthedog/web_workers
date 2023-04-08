@@ -31,8 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   
-  web_worker: 
-    path: plugins/web_worker
+  web_workers: 
+    path: plugins/web_workers
 
 
   # The following adds the Cupertino Icons font to your application.
