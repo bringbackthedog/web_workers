@@ -31,8 +31,8 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _webWorkersPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _webWorkersPlugin.getPlatformVersion() ??
+          'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -55,7 +55,52 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: [
+              Text('Running on: $_platformVersion\n'),
+
+              // Create worker
+              ElevatedButton(
+                child: const Text('Create worker'),
+                onPressed: () async {
+                  try {
+                    final id = await _webWorkersPlugin.create('worker.dart.js');
+                  } catch (e) {
+                    print('DEBUG error: $e');
+                  }
+                },
+              ),
+
+              SizedBox(height: 20),
+
+              // Post message
+              ElevatedButton(
+                child: const Text('Post message'),
+                onPressed: () async {
+                  try {
+                    await _webWorkersPlugin.postMessage(
+                        0, 'Hello from Flutter');
+                  } catch (e) {
+                    print('DEBUG error: $e');
+                  }
+                },
+              ),
+
+              SizedBox(height: 20),
+
+              // Terminate worker
+              ElevatedButton(
+                child: const Text('Terminate worker'),
+                onPressed: () async {
+                  try {
+                    await _webWorkersPlugin.terminate(0);
+                  } catch (e) {
+                    print('DEBUG error: $e');
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

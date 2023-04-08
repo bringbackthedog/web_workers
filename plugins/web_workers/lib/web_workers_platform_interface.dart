@@ -26,4 +26,16 @@ abstract class WebWorkersPlatform extends PlatformInterface {
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<int> create(String url) {
+    throw UnimplementedError('create() has not been implemented.');
+  }
+
+  Future<void> postMessage(int id, String message) {
+    throw UnimplementedError('postMessage() has not been implemented.');
+  }
+
+  Future<void> terminate(int id) {
+    throw UnimplementedError('terminate() has not been implemented.');
+  }
 }

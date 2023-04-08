@@ -11,7 +11,10 @@ class MethodChannelWebWorkers extends WebWorkersPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    // DEBUG LENZ
+    print('DEBUG MethodChannelWebWorkers()');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 }
