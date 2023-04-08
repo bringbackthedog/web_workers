@@ -1,6 +1,6 @@
-import 'package:web_workers/web_workers.dart';
+// import 'package:web_workers/web_workers.dart';
 
-void main() {
-  //
-  // var ww = WebWorkersPlugin
-}
+// void main() {
+//   //
+//   // var ww = WebWorkersPlugin
+// }
