@@ -69,4 +69,20 @@ class WebWorkersWeb extends WebWorkersPlatform {
 
     worker.terminate();
   }
+
+  /// On Message
+  @override
+  Stream<String> onMessage(int id) {
+    print('WebWorkersWeb.onMessage: $id');
+    final worker = _workers[id];
+
+    if (worker == null) {
+      throw PlatformException(
+        code: 'Unimplemented',
+        details: 'web_worker for web doesn\'t implement \'${id}\'',
+      );
+    }
+
+    return worker.onMessage.map((event) => event.data.toString());
+  }
 }

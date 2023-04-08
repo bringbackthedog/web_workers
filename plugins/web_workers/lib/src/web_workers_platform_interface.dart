@@ -38,4 +38,8 @@ abstract class WebWorkersPlatform extends PlatformInterface {
   Future<void> terminate(int id) {
     throw UnimplementedError('terminate() has not been implemented.');
   }
+
+  Stream<String> onMessage(int id) {
+    throw UnimplementedError('onMessage() has not been implemented.');
+  }
 }
