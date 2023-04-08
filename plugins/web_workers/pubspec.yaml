@@ -37,8 +37,10 @@ flutter:
   plugin:
     platforms:
       web:
+        # Path to the plugin's web implementation.
+        fileName: src/web_workers_web.dart # Path: plugins/web_workers/lib/src/web_workers_web.dart
+        # The class name of the plugin's web implementation.
         pluginClass: WebWorkersWeb
-        fileName: web_workers_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
