@@ -1,0 +1,24 @@
+name: web_worker
+version: 0.0.1
+
+flutter:
+  plugin:
+    platforms:
+      web:
+        pluginClass: WebWorkerPlugin
+        fileName: web_worker.dart
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  flutter_web_plugins:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+environment: 
+   sdk: '>=2.19.5 <3.0.0'
+   flutter: '>=3.0.0 <4.0.0'
