@@ -3,6 +3,9 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:web_workers/web_workers.dart';
+import 'package:web_workers_example/custom_worker.dart';
+
+const workerName = 'worker.dart.js';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +21,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _webWorkersPlugin = WebWorkers();
+
+  CustomWorker? _worker;
 
   @override
   void initState() {
@@ -64,41 +69,51 @@ class _MyAppState extends State<MyApp> {
                 child: const Text('Create worker'),
                 onPressed: () async {
                   try {
-                    final id = await _webWorkersPlugin.create('worker.dart.js');
+                    final workerId = await _webWorkersPlugin.create(workerName);
+                    _worker = CustomWorker(workerId);
                   } catch (e) {
                     print('DEBUG error: $e');
                   }
                 },
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-              // Post message
+              // Post message to the last worker created
               ElevatedButton(
                 child: const Text('Post message'),
                 onPressed: () async {
+                  if (_worker == null) {
+                    throw Exception('No worker created. Create one first.');
+                  }
+
                   try {
                     await _webWorkersPlugin.postMessage(
-                        0, 'Hello from Flutter');
+                      _worker!.id,
+                      'Hello from Flutter',
+                    );
                   } catch (e) {
                     print('DEBUG error: $e');
                   }
                 },
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-              // Terminate worker
+              // Terminate the last worker created
               ElevatedButton(
                 child: const Text('Terminate worker'),
                 onPressed: () async {
                   try {
-                    await _webWorkersPlugin.terminate(0);
+                    await _webWorkersPlugin.terminate(_worker!.id);
+                    _worker = null;
                   } catch (e) {
                     print('DEBUG error: $e');
                   }
                 },
               ),
+
+              const SizedBox(height: 20),
             ],
           ),
         ),
