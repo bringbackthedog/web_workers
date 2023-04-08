@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:web_workers/web_workers.dart';
-import 'package:web_workers/web_workers_platform_interface.dart';
-import 'package:web_workers/web_workers_method_channel.dart';
+import 'package:web_workers/src/web_workers_platform_interface.dart';
+import 'package:web_workers/src/web_workers_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockWebWorkersPlatform
     with MockPlatformInterfaceMixin
     implements WebWorkersPlatform {
-
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
 }

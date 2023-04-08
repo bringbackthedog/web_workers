@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:web_workers/web_workers_method_channel.dart';
+import 'package:web_workers/src/web_workers_method_channel.dart';
 
 void main() {
   MethodChannelWebWorkers platform = MethodChannelWebWorkers();

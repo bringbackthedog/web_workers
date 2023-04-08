@@ -1,4 +1,4 @@
-import 'web_workers_platform_interface.dart';
+import 'src/web_workers_platform_interface.dart';
 
 class WebWorkers {
   Future<String?> getPlatformVersion() {
