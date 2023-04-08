@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:web_workers/web_workers.dart';
-import 'package:web_workers_example/custom_worker.dart';
+import 'package:web_workers_example/models/custom_worker.dart';
 
 const workerName = 'worker.dart.js';
 
